@@ -183,12 +183,12 @@ public class NewBehaviourScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 }
 ~~~
@@ -623,6 +623,124 @@ for(int index = 0; index < 100; index = index + 1)
 
 また、**for文の中でも、whileと同様にbreakを利用することができる。**
 
+
+## 変数の使用可能な範囲
+
+前回は基本的なC#の文法事項を学んだ。その中に**スコープ**があった。スコープの中で宣言した変数は、その中でだけ使用することができる。プログラミングにおいてソースコードを記述する際には、変数の使用可能な範囲を意識しよう。
+
+~~~csharp
+using UnityEngine;
+using System.Collections;
+
+public class ClassName : MonoBehaviour {
+
+    // Use this for initialization
+    void Start () {
+    int x;
+    x = 10;
+    }
+
+    // Update is called once per frame
+    void Update () {
+      Debug.log("x =" + x); //Error
+    }
+}
+~~~
+
+# [文法]配列
+配列とはプログラミングにおけるデータ構造の一つ。複数の値をひとまとめにして扱いたい場合がある。
+
+~~~csharp
+using UnityEngine;
+using System.Collections;
+
+public class MainPlayer : MonoBehaviour {
+
+    // Use this for initialization
+    void Start () {
+    float[] array = new float[3]; //３つのfloat値が入る配列
+    array[0] = 1.2; //配列は0からはじまる
+    array[1] = 2.3;
+    array[2] = -0.5;
+    }
+}
+~~~
+
+`配列型変数 = new 型名[配列の長さ];`で宣言することができる。
+
+~~~csharp
+using UnityEngine;
+using System.Collections;
+
+public class MainPlayer : MonoBehaviour {
+
+    // Use this for initialization
+    void Start () {
+    float[] array = new float[20]; //３つのfloat値が入る配列
+    for(int i = 0; i < array.length; i++){
+    	array[i] = i * 2; //0,2,4,...
+    }
+    }
+}
+~~~
+
+**練習**
+
+
+# [文法]メソッド
+
+~~~csharp
+using UnityEngine;
+using System.Collections;
+
+public class ClassName : MonoBehaviour {
+    float x; //フィールド
+    // Use this for initialization
+    void Start () {
+    }
+
+    void methodName(){ //メソッド
+      //methodNameの部分には自由に名前をつけられる
+      return;
+    }
+}
+~~~
+
+例
+
+~~~csharp
+    float plus(float a, float b){
+      return a + b;
+      /*returnで終わり。このブロック内でreturnの後に書いたものは実行されない。*/
+    }
+~~~
+
+~~~csharp
+    void OnTriggerEnter(Collider other) {
+    Destroy(other.gameObject);
+}
+~~~
+
+Unityの`Start()`や`Update()`もメソッドの一つだ。
+
+**練習**
+float型の変数二つを掛けてfloat値を返すメソッドmultiply()を実装しよう。
+
+~~~csharp
+using UnityEngine;
+using System.Collections;
+
+public class ClassName : MonoBehaviour {
+    float x;
+    float y;
+    void Start () {
+      x = 2.4;
+      y = 0.3;
+      Debug.log(multypliy(float a, float b)); //0.72
+    }
+}
+~~~
+
 # 参照と値
 
 ## メモリとアドレス
@@ -809,7 +927,112 @@ void Update()
 
 # クラス
 
+---
+
+# 第二回活動
+#先にPrefabsとか少し教えてGW中に遊んでもらいたい
+今回は、
+
+## 値と参照
+## オブジェクト指向とは
+C#の重要な考え方であるオブジェクト指向という概念を学ぶ。C#に限らず、最近のプログラミング言語はオブジェクト指向に基づいた設計になっている。
+
+### [文法]クラス
+オブジェクトの設計図になるものをクラスという。
+~~~csharp
+using UnityEngine;
+using System.Collections;
+
+public class ClassName : MonoBehaviour {
+
+    // Use this for initialization
+    void Start () {
+
+    }
+
+    // Update is called once per frame
+    void Update () {
+
+    }
+}
+~~~
 
 
 
+### [文法]フィールド
+クラススコープの中で宣言される変数のこと。
 
+~~~csharp
+using UnityEngine;
+using System.Collections;
+
+public class ClassName : MonoBehaviour {
+    int x; //フィールド
+    // Use this for initialization
+    void Start () {
+    x = 10;
+    }
+
+    // Update is called once per frame
+    void Update () {
+      Debug.log("x = " + x); //x = 10
+    }
+}
+~~~
+
+---
+プログラミングをする上で意識することの一つにソースコードを読みやすくするということがある。ソースコードは自分だけのものではなく、他の人と共有する資産であることを覚えておこう。
+
+誰しも、楽をしたい。プログラミングをする上で同じものを書かないようにする。同じことを複数箇所に書いてしまうと、変更やバグが発生した場合にコードの修正が大変になる。
+
+---
+
+~~~csharp
+using UnityEngine;
+using System.Collections;
+
+public class ClassName : MonoBehaviour {
+    float x; //フィールド
+    // Use this for initialization
+    void Start () {
+    x = 10f;
+    y = 20f;
+    z = 5f;
+    Debug.log(x + (x + y) * x - (3 * x) * 3);
+    Debug.log(y + (y + z) * y - (3 * y) * 3);
+    Debug.log(z + (z + x) * z - (3 * y) * 3);
+
+    }
+}
+~~~
+
+これは、単に同じ計算を値を変えて行っているだけだが、以下のようにこの計算をするという同じ動作を取り出して、まとめることだ出来る。以下のような方法を用いることがある。
+
+~~~csharp
+using UnityEngine;
+using System.Collections;
+
+public class ClassName : MonoBehaviour {
+    float x; //フィールド
+    float y;
+    float z;
+    // Use this for initialization
+    void Start () {
+    x = 10f;
+    y = 20f;
+    z = 5f;
+    Debug.log(mathodName(x, y));
+    Debug.log(methodName(y, z));
+    Debug.log(methodName(z, x));
+    }
+
+    public static float methodName(float a, float b){
+      return a + (a + b) * a - (3.0 * a) * 3.0;
+    }
+}
+~~~
+
+まとめた場合、式を扱う部分が一箇所だけになっている。つまり、動作の内容（この場合は計算式）が変わっても変更を反映することが容易になる。
+## カプセル化
+## ポリモーフィズム
+---
