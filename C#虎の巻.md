@@ -623,6 +623,53 @@ for(int index = 0; index < 100; index = index + 1)
 
 また、**for文の中でも、whileと同様にbreakを利用することができる。**
 
+## 条件分岐2(switch)
+if文を書いていて、複数の条件分岐をさせたいと思ったことはないだろうか。そのような時に`switch`文が使われることがある。
+
+~~~csharp
+switch(変数)
+{
+  case 値1:
+    いくつかの文1 // 変数の値 == 値1 のとき実行される
+    break;
+  case 値2:
+    いくつかの文2 // 変数の値 == 値2 のとき実行される
+    break;
+      ・
+      ・
+      ・
+  default:
+    いくつかの文 // 変数の値がどの値とも異なるとき実行される
+    break;
+}
+~~~
+
+**練習**
+次の条件分岐のアルゴリズムを`switch`文を使って書き直してみよう。
+
+~~~csharp
+using UnityEngine;
+using System.Collections;
+
+public class MainPlayer : MonoBehaviour {
+
+    // Use this for initialization
+    void Start () {
+    int x = 10;
+    if(x > 100){
+    
+    }else if(x > 80){
+    
+    }else if(x > 60){
+    
+    }else if(x > 40){
+    
+    }else if(x > 20){
+    
+    }else if(x > 0){
+    }
+}
+~~~
 ---
 
 # 第二回活動
