@@ -1,7 +1,7 @@
 # 第二回活動
 前回は基本的なC#の文法事項を学んだ。その中に**スコープ**があった。スコープの中で宣言した変数は、その中でだけ使用することができる。プログラミングにおいてソースコードを記述する際には、変数の使用可能な範囲を意識しよう。
 
-```csharp
+~~~csharp
 using UnityEngine;
 using System.Collections;
 
@@ -18,12 +18,12 @@ public class ClassName : MonoBehaviour {
       Debug.log("x =" + x); //Error
     }
 }
-```
+~~~
 
 ### [文法]フィールド
 クラススコープの中で宣言される変数のこと。
 
-```cs
+~~~csharp
 using UnityEngine;
 using System.Collections;
 
@@ -39,14 +39,14 @@ public class ClassName : MonoBehaviour {
       Debug.log("x = " + x); //x = 10
     }
 }
-```
+~~~
 ---
 プログラミングをする上で意識することの一つにソースコードを読みやすくするということがある。ソースコードは自分だけのものではなく、他の人と共有する資産であることを覚えておこう。
 
 誰しも、楽をしたい。プログラミングをする上で同じものを書かないようにする。同じことを複数箇所に書いてしまうと、変更やバグが発生した場合にコードの修正が大変になる。
 
 ---
-```cs
+~~~csharp
 using UnityEngine;
 using System.Collections;
 
@@ -63,9 +63,9 @@ public class ClassName : MonoBehaviour {
 
     }
 }
-```
+~~~
 これは、単に同じ計算を値を変えて行っているだけだが、以下のようにこの計算をするという同じ動作を取り出して、まとめることだ出来る。以下のような方法を用いることがある。
-```cs
+~~~csharp
 using UnityEngine;
 using System.Collections;
 
@@ -88,12 +88,12 @@ public class ClassName : MonoBehaviour {
     }
 }
 
-```
+~~~
 まとめた場合、式を扱う部分が一箇所だけになっている。つまり、動作の内容（この場合は計算式）が変わっても変更を反映することが容易になる。
 
 ## [文法]メソッド
 
-```cs
+~~~csharp
 using UnityEngine;
 using System.Collections;
 
@@ -108,25 +108,25 @@ public class ClassName : MonoBehaviour {
       return;
     }
 }
-```
+~~~
 例
-```cs
+~~~csharp
     float plus(float a, float b){
       return a + b;
       /*returnで終わり。このブロック内でreturnの後に書いたものは実行されない。*/
     }
-```
-```cs
+~~~
+~~~csharp
     void OnTriggerEnter(Collider other) {
     Destroy(other.gameObject);
 }
-```
+~~~
 Unityの`Start()`や`Update()`もメソッドの一つだ。
 
 **練習**
 float型の変数二つを掛けてfloat値を返すメソッドmultiply()を実装しよう。
 
-```csharp
+~~~csharpharp
 using UnityEngine;
 using System.Collections;
 
@@ -139,7 +139,7 @@ public class ClassName : MonoBehaviour {
       Debug.log(multypliy(float a, float b)); //0.72
     }
 }
-```
+~~~
 
 ---
 ## [文法]配列
