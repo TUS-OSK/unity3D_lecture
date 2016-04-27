@@ -259,7 +259,7 @@ Debug.Log("Hello");
 |int|整数|
 |float|小数|
 |double|倍精度小数|
-|bool|真偽値*|
+|bool|真偽値|
 |char|文字|
 |string|文字列|
 
@@ -623,61 +623,16 @@ for(int index = 0; index < 100; index = index + 1)
 
 また、**for文の中でも、whileと同様にbreakを利用することができる。**
 
-<<<<<<< HEAD
-## 条件分岐2(switch)
-if文を書いていて、複数の条件分岐をさせたいと思ったことはないだろうか。そのような時に`switch`文が使われることがある。
-
-~~~csharp
-switch(変数)
-{
-  case 値1:
-    いくつかの文1 // 変数の値 == 値1 のとき実行される
-    break;
-  case 値2:
-    いくつかの文2 // 変数の値 == 値2 のとき実行される
-    break;
-      ・
-      ・
-      ・
-  default:
-    いくつかの文 // 変数の値がどの値とも異なるとき実行される
-    break;
-}
-~~~
-
-**練習**
-次の条件分岐のアルゴリズムを`switch`文を使って書き直してみよう。
-
-~~~csharp
-using UnityEngine;
-using System.Collections;
-
-public class MainPlayer : MonoBehaviour {
-
-    // Use this for initialization
-    void Start () {
-    int x = 10;
-    if(x > 100){
-    
-    }else if(x > 80){
-    
-    }else if(x > 60){
-    
-    }else if(x > 40){
-    
-    }else if(x > 20){
-    
-    }else if(x > 0){
-    }
-}
-~~~
 ---
-=======
->>>>>>> 3feee9676fb0647cf67b8d48eeb5ec2cd000cfa7
+
+# 第二回はここから
+まずは前回の復習。課題の確認から始めよう。
+
+---
 
 ## 変数の使用可能な範囲
 
-前回は基本的なC#の文法事項を学んだ。その中に**スコープ**があった。スコープの中で宣言した変数は、その中でだけ使用することができる。プログラミングにおいてソースコードを記述する際には、変数の使用可能な範囲を意識しよう。
+前回は基本的なC#の文法事項を学んだ。その中に**スコープ**があった。スコープの中で宣言した変数は、基本的にはその中でだけ使用することができる。プログラミングにおいてソースコードを記述する際には、変数の使用可能な範囲を意識しよう。
 
 ~~~csharp
 using UnityEngine;
@@ -698,8 +653,37 @@ public class ClassName : MonoBehaviour {
 }
 ~~~
 
+## [Tips]宣言の方法
+
+~~~csharp
+void Start () {
+    int x;
+    x = 10;
+    }
+~~~
+前回までは上記のような方法でint型変数xを定めた。これを略して、以下のように宣言することができる。
+
+~~~csharp
+void Start () {
+    int x = 10;
+    }
+~~~
+
+このように、変数の宣言と同時に値を入れることを変数の初期化という。これからは`int x = 10;`のような記述をしていきます。
+
 # [文法]配列
-配列とはプログラミングにおけるデータ構造の一つ。複数の値をひとまとめにして扱いたい場合がある。
+配列とはプログラミングにおけるデータ構造の一つ。複数の値をひとまとめにして扱いたい場合がある。前回学んだ、C#で用いる代表的なプリミティブ型でも配列を使用できる。
+
+|型|表現するデータ|
+|:-:|:-:|
+|int[]|整数の配列|
+|float[]|小数の配列|
+|double[]|倍精度小数の配列|
+|bool[]|真偽値の配列|
+|char[]|文字の配列|
+|string[]|文字列の配列|
+
+ではまず配列の宣言の仕方を学ぼう。
 
 ~~~csharp
 using UnityEngine;
@@ -717,7 +701,7 @@ public class MainPlayer : MonoBehaviour {
 }
 ~~~
 
-`配列型変数 = new 型名[配列の長さ];`で宣言することができる。
+[注意]C#の配列は0番目から数えられる。つまり上記の例では0番目に1.2、1番目に2.3、3番目に-0.5が入ることになる。
 
 ~~~csharp
 using UnityEngine;
@@ -727,7 +711,7 @@ public class MainPlayer : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-    float[] array = new float[20]; //３つのfloat値が入る配列
+    float[] array = new float[20]; //20のfloat値が入る配列
     for(int i = 0; i < array.length; i++){
     	array[i] = i * 2; //0,2,4,...
     }
@@ -735,62 +719,43 @@ public class MainPlayer : MonoBehaviour {
 }
 ~~~
 
-**練習**
-
+このように`for`文を使って、配列に値を代入することができる。よく使うのでこれも合わせて覚えておこう。
 
 # [文法]メソッド
+プログラミングでも数学の関数のようなものを定義することができる。その関数のようなものをC#ではメソッドという。ソースコードを見やすくしたり、ソースコードの再利用性を高めたりすることができるので、使えると便利である。では、以下で使い方を見ていこう。
 
 ~~~csharp
 using UnityEngine;
 using System.Collections;
 
 public class ClassName : MonoBehaviour {
-    float x; //フィールド
+    
     // Use this for initialization
     void Start () {
+    int a = 10;
+    int b = 20;
+    Debug.log(plus(a, b)); //30
     }
 
-    void methodName(){ //メソッド
-      //methodNameの部分には自由に名前をつけられる
-      return;
+    public static int plus(int x, int y){ //メソッド
+      //plusの部分には自由に名前をつけられる
+      return x + y;
     }
 }
 ~~~
+これは、二つのint型の数字を受け取って、足したint型の値を返すメソッドの例である。数学の関数もこのように定義できる。プログラミングでは、メソッドが受け取る値の事を**引数(ひきすう)**といい、返ってくる結果を**返り値 or 戻り値**という。　　
 
-例
+結果は`return value;`で値を返す。返り値の型はメソッドを定義するときに、`返り値の型　メソッドの名前(引数){メソッドの内容}`で書く。  
+メソッドは前回行った
 
-~~~csharp
-    float plus(float a, float b){
-      return a + b;
-      /*returnで終わり。このブロック内でreturnの後に書いたものは実行されない。*/
-    }
-~~~
+$$(名前空間)\supset 型 \supset メンバ\supset 制御文\supset 制御文 \supset \cdots \supset 制御文$$
 
-~~~csharp
-    void OnTriggerEnter(Collider other) {
-    Destroy(other.gameObject);
-}
-~~~
+のメンバの部分にあたる。  
 
 Unityの`Start()`や`Update()`もメソッドの一つだ。
 
 **練習**
-float型の変数二つを掛けてfloat値を返すメソッドmultiply()を実装しよう。
 
-~~~csharp
-using UnityEngine;
-using System.Collections;
-
-public class ClassName : MonoBehaviour {
-    float x;
-    float y;
-    void Start () {
-      x = 2.4;
-      y = 0.3;
-      Debug.log(multypliy(float a, float b)); //0.72
-    }
-}
-~~~
 
 # 参照と値
 
@@ -977,11 +942,6 @@ void Update()
 * なぜSwapArray1は動作しなかったか?
 
 # クラス
-
----
-
-# 第二回活動
-#先にPrefabsとか少し教えてGW中に遊んでもらいたい
 今回は、
 
 ## 値と参照
