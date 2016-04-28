@@ -394,7 +394,7 @@ hp = hp * 200;
 * int型3つの変数a,b,cがあったとしてその3辺からなる三角形の面積の二乗$S^2$を出す数式を考えよう。
 以下はヘロンの公式である。
 
-$$s=\frac{a+b+c}{2}\\S^2 = \frac{1}{8}s(s-a)(s-b)(s-c)$$
+$$s=\frac{a+b+c}{2}\\S^2 = s(s-a)(s-b)(s-c)$$
 
 ### 概念の整理(関係演算子)、文法
 
@@ -683,6 +683,7 @@ void Start () {
     x = 10;
     }
 ~~~
+
 前回までは上記のような方法でint型変数xを定めた。これを略して、以下のように宣言することができる。
 
 ~~~csharp
@@ -694,7 +695,7 @@ void Start () {
 このように、変数の宣言と同時に値を入れることを変数の初期化という。これからは`int x = 10;`のような記述をしていくことにする。
 
 また、`x = x + 1;`のような形を略して`x += 1;`と表すこともできる。
-加える増分が1の場合に限っては`x++;`と記述することもできる。
+加える増分が1の場合に限っては`x++;`と記述することもできる。この`x++;`については後ほど説明を加えると思います。
 
 ~~~csharp
 void Start () {
@@ -825,15 +826,59 @@ $$(名前空間)\supset 型 \supset メンバ\supset 制御文\supset 制御文 
 
 Unityの`Start()`や`Update()`もメソッドの一つだ。
 
+
+~~~csharp
+using UnityEngine;
+using System.Collections;
+
+public class ClassName : MonoBehaviour {
+    // Use this for initialization
+    void Start () {
+    float x = 10f;
+    flaot y = 20f;
+    float z = 5f;
+    Debug.log(x + (x + y) * x - (3 * x) * 3);
+    Debug.log(y + (y + z) * y - (3 * y) * 3);
+    Debug.log(z + (z + x) * z - (3 * y) * 3);
+
+    }
+}
+~~~
+
+これは、単に同じ計算を値を変えて行っているだけだが、以下のようにこの計算をするという同じ動作を取り出して、まとめることだ出来る。以下のような方法を用いることがある。
+
+~~~csharp
+using UnityEngine;
+using System.Collections;
+
+public class ClassName : MonoBehaviour {
+    // Use this for initialization
+    void Start () {
+    float x = 10f;
+    float y = 20f;
+    float z = 5f;
+    Debug.log(mathodName(x, y));
+    Debug.log(methodName(y, z));
+    Debug.log(methodName(z, x));
+    }
+
+    public static float methodName(float a, float b){
+      return a + (a + b) * a - (3.0 * a) * 3.0;
+    }
+}
+~~~
+
+まとめた場合、式を扱う部分が一箇所だけになっている。つまり、動作の内容（この場合は計算式）が変わっても変更を反映することが容易になる。
+
+---
+
+
 **練習**
 実際にメソッドを一つ作ってみよう。
 
 $$ f(x) = 3x + 1　(x:float型)$$
 
 を表すメソッドを実装してみよう。実装できたら、実際にメソッドを`Start()`の中で使ってみよう。メソッドの名前は自由に決めて良いです。
-
-## 閑話休題
-Unityの使い方を少し学ぼう。頑張れば今までに学んだ知識だけでちょっとしたものを作ることができる。
 
 # 参照と値
 
@@ -1020,7 +1065,6 @@ void Update()
 * なぜSwapArray1は動作しなかったか?
 
 # クラス
-今回は、
 
 ## 値と参照
 ## オブジェクト指向とは
@@ -1028,6 +1072,7 @@ C#の重要な考え方であるオブジェクト指向という概念を学ぶ
 
 ### [文法]クラス
 オブジェクトの設計図になるものをクラスという。
+
 ~~~csharp
 using UnityEngine;
 using System.Collections;
@@ -1045,7 +1090,6 @@ public class ClassName : MonoBehaviour {
     }
 }
 ~~~
-
 
 
 ### [文法]フィールド
@@ -1074,54 +1118,4 @@ public class ClassName : MonoBehaviour {
 
 誰しも、楽をしたい。プログラミングをする上で同じものを書かないようにする。同じことを複数箇所に書いてしまうと、変更やバグが発生した場合にコードの修正が大変になる。
 
----
-
-~~~csharp
-using UnityEngine;
-using System.Collections;
-
-public class ClassName : MonoBehaviour {
-    float x; //フィールド
-    // Use this for initialization
-    void Start () {
-    x = 10f;
-    y = 20f;
-    z = 5f;
-    Debug.log(x + (x + y) * x - (3 * x) * 3);
-    Debug.log(y + (y + z) * y - (3 * y) * 3);
-    Debug.log(z + (z + x) * z - (3 * y) * 3);
-
-    }
-}
-~~~
-
-これは、単に同じ計算を値を変えて行っているだけだが、以下のようにこの計算をするという同じ動作を取り出して、まとめることだ出来る。以下のような方法を用いることがある。
-
-~~~csharp
-using UnityEngine;
-using System.Collections;
-
-public class ClassName : MonoBehaviour {
-    float x; //フィールド
-    float y;
-    float z;
-    // Use this for initialization
-    void Start () {
-    x = 10f;
-    y = 20f;
-    z = 5f;
-    Debug.log(mathodName(x, y));
-    Debug.log(methodName(y, z));
-    Debug.log(methodName(z, x));
-    }
-
-    public static float methodName(float a, float b){
-      return a + (a + b) * a - (3.0 * a) * 3.0;
-    }
-}
-~~~
-
-まとめた場合、式を扱う部分が一箇所だけになっている。つまり、動作の内容（この場合は計算式）が変わっても変更を反映することが容易になる。
-## カプセル化
-## ポリモーフィズム
 ---
