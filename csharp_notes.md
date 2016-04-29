@@ -818,7 +818,7 @@ public class ClassName : MonoBehaviour {
 
 これは、二つのint型の数字を受け取って、足したint型の値を返すメソッドの例である。数学の関数もこのように定義できる。プログラミングでは、メソッドが受け取る値の事を**引数(ひきすう)**といい、返ってくる結果を**返り値 or 戻り値**という。　　
 
-結果は`return value;`で値を返す。返り値の型はメソッドを定義するときに、`返り値の型　メソッドの名前(引数){メソッドの内容}`で書く。  
+結果は`return value;`で値を返す。返り値の型はメソッドを定義するときに、`返り値の型　メソッドの名前(引数){メソッドの内容}`で書く。
 メソッドは前回行った
 
 $$(名前空間)\supset 型 \supset メンバ\supset 制御文\supset 制御文 \supset \cdots \supset 制御文$$
@@ -888,8 +888,11 @@ $$ f(x) = 3x + 1　(x:float型)$$
 を表すメソッドを実装してみよう。実装できたら、実際にメソッドを`Start()`の中で使ってみよう。メソッドの名前は自由に決めて良いです。
 
 
-<<<<<<< HEAD
-=======
+---
+
+# オブジェクト指向とは
+C#の重要な考え方であるオブジェクト指向という概念を学ぶ。C#に限らず、最近のプログラミング言語はオブジェクト指向に基づいた設計になっている。
+
 # クラス
 一度、今まで学んだ文法を、最初に記述した中括弧のスコープ別に考えてみよう。
 
@@ -902,6 +905,25 @@ $$ f(x) = 3x + 1　(x:float型)$$
 |(メンバ内)|変数、演算子、new等|-|
 
 さて、今までC#に元々用意されているプリミティブ型やその配列を使えるようにはなったが、自分で型を作ることができると、様々なプログラムが楽になることがある。
+
+~~~csharp
+using UnityEngine;
+using System.Collections;
+
+public class ClassName : MonoBehaviour {
+
+    // Use this for initialization
+    void Start () {
+
+    }
+
+    // Update is called once per frame
+    void Update () {
+
+    }
+}
+~~~
+
 
 ## [文法]フィールド
 
@@ -941,6 +963,26 @@ Monster m1 = new Monster();
 m1.name="スライム";
 m1.hp = 30;
 m1.ap = 10;
+~~~
+
+クラススコープの中で宣言される変数のこと。
+
+~~~csharp
+using UnityEngine;
+using System.Collections;
+
+public class ClassName : MonoBehaviour {
+    int x; //フィールド
+    // Use this for initialization
+    void Start () {
+    x = 10;
+    }
+
+    // Update is called once per frame
+    void Update () {
+      Debug.log("x = " + x); //x = 10
+    }
+}
 ~~~
 
 上を見ればわかる通り、Monsterという名の**型**を追加したに過ぎず、今までの変数の宣言となんら変わらない変数の確保方法であることに注意したい。
@@ -1139,9 +1181,23 @@ m1.Damage(damage);
 
 ## [文法]静的フィールド
 
-例えば、`Cat`クラスを作ったとしよう。それぞれの猫は独立した名前`name`をも
+例えば、`Cat`クラスを作ったとしよう。それぞれの猫は独立した名前`name`をもっている。
 
->>>>>>> 77624693efd011ebcc2074c9bd145075f4f1b307
+
+# Unityと親しもう。
+
+実際にキャラクターをキーボードからオブジェクトを動かしてみよう。
+
+1. プリミティブ型のゲームオブジェクトを一つ生成してみる。
+2. PlayerControllerという名前をつけてC#スクリプトを作ってみよう。
+	+ C#のクラスを作る際には、初めの文字を大文字にする。このように、プログラミング言語には命名規則が存在する。
+3. ゲームオブジェクトにスクリプトをアタッチしよう。
+4. 実際にキーボードの入力を受け取るソースコードを書いてみよう。
+5. 実行してみよう。
+
+実際には制御構文を上手く組み合わせて、タイミングよく音を出したり、アニメーションを連動させたり、というプログラムを組みます。
+
+
 # 参照と値
 
 ## メモリとアドレス
@@ -1332,62 +1388,5 @@ void Update()
 **練習**
 
 * なぜSwapArray1は動作しなかったか?
-<<<<<<< HEAD
 
 ---
-
-## オブジェクト指向とは
-C#の重要な考え方であるオブジェクト指向という概念を学ぶ。C#に限らず、最近のプログラミング言語はオブジェクト指向に基づいた設計になっている。
-
-### [文法]クラス
-オブジェクトの設計図になるものをクラスという。
-
-~~~csharp
-using UnityEngine;
-using System.Collections;
-
-public class ClassName : MonoBehaviour {
-
-    // Use this for initialization
-    void Start () {
-
-    }
-
-    // Update is called once per frame
-    void Update () {
-
-    }
-}
-~~~
-
-
-### [文法]フィールド
-クラススコープの中で宣言される変数のこと。
-
-~~~csharp
-using UnityEngine;
-using System.Collections;
-
-public class ClassName : MonoBehaviour {
-    int x; //フィールド
-    // Use this for initialization
-    void Start () {
-    x = 10;
-    }
-
-    // Update is called once per frame
-    void Update () {
-      Debug.log("x = " + x); //x = 10
-    }
-}
-~~~
-
-## Unityと親しもう。
-
-実際にキャラクターをキーボードからオブジジェクトを動かしてみよう。
-
-1. プリミティブ型のゲームオブジェクトを一つ生成してみる。
-2. Player
-
-=======
->>>>>>> 77624693efd011ebcc2074c9bd145075f4f1b307
