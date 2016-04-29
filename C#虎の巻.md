@@ -741,6 +741,258 @@ public class ClassName : MonoBehaviour {
 }
 ~~~
 
+
+# クラス
+一度、今まで学んだ文法を、最初に記述した中括弧のスコープ別に考えてみよう。
+
+|スコープ|今まで学んだ|これから学ぶ|
+|:-:|:-:|:-:|
+|名前空間|なし|名前空間|
+|型|なし|クラス、構造体、インターフェース、列挙体、デリゲート|
+|メンバ|メソッド|コンストラクタ、デストラクタ、フィールド、プロパティ、イベント|
+|制御文|if、while、for、switch|foreach、try-catch、using|
+|(メンバ内)|変数、演算子、new等|-|
+
+さて、今までC#に元々用意されているプリミティブ型やその配列を使えるようにはなったが、自分で型を作ることができると、様々なプログラムが楽になることがある。
+
+## [文法]フィールド
+
+例えば、あるゲームのモンスターは以下のような値を持つ。
+
+* string 名前
+* int hp
+* int 攻撃力
+
+もしもこれを自分で型を作らずにモンスター3体がプログラムの中に登場したら記述が以下のようになってしまうだろう。
+
+~~~csharp
+string name1 = "スライム", name2="メタルスライム",name3="はぐれスライム";
+int hp1 = 30, hp2 = 1000, hp3 = 100;
+int ap1 = 10, ap2 = 5, ap3 = 30;
+~~~
+
+どれがどれだかわからなくなるだろう。そういう時、モンスターごとに値を管理できたとしたら便利だ。
+
+例えば以下のように記述することで新たにMonster型を作成することができる。このように宣言された場合、**`Monsterクラス`**と呼び示すことが多い。
+
+~~~csharp
+public class Monster
+{
+   public string name;
+   
+   public int hp;
+   
+   public int ap;
+}
+~~~
+
+利用するには以下のようにすれば良い。
+
+~~~csharp
+Monster m1 = new Monster();
+m1.name="スライム";
+m1.hp = 30;
+m1.ap = 10;
+~~~
+
+上を見ればわかる通り、Monsterという名の**型**を追加したに過ぎず、今までの変数の宣言となんら変わらない変数の確保方法であることに注意したい。
+
+以下はクラス型の宣言の仕方である。
+
+~~~csharp
+(型アクセス修飾子) class クラス名
+{
+   (メンバアクセス修飾子) 変数型 変数名; // フィールド
+}
+~~~
+
+また、上記の例で言えば、hpやnameやapなど型直下の変数のことを**フィールド**という。
+
+型アクセス修飾子、メンバアクセス修飾子については後々扱うが、現時点ではpublicとしておいて問題はないだろう。
+
+また、C#では基本的に**クラス名は大文字から始まり、単語の区切りで大文字にすることが多い**例えば、ボスのモンスターならば`BossMonster`などの名前が適切だろう。
+
+もちろん、これはただの名前であり、自由でつけられるが他の人が読みやすいように名前には一定の規則がつけられてることが多い。これを変数の**命名規則**という。
+
+あるクラス内のフィールドにアクセスするには、クラスの変数に`.`をつけてアクセスすることができる。
+
+先の例のように、Monster型の変数m1の中のnameフィールドにアクセスするには、`m1.name`とすれば良い。
+
+## [文法]コンストラクタ
+さて、以下の先ほどのソースコードを見てみると、まだまだ冗長である。
+
+~~~csharp
+Monster m1 = new Monster();
+m1.name="スライム";
+m1.hp = 30;
+m1.ap = 10;
+~~~
+
+例えば、name,hp,apがMonster型の変数を作成するときに代入されることが前提なら、以下のように記述するとさらに便利になる。
+
+~~~csharp
+public class Monster
+{
+   public string name;
+   
+   public int hp;
+   
+   public int ap;
+   
+   public Monster(string _name,int _hp,int _ap)
+   {
+      this.name = _name;
+      this.hp = _hp;
+      this.ap = _ap;
+   }
+}
+~~~
+
+これを使うときには以下のような記述で先ほどと同じような変数m1を用意することができる。
+
+~~~csharp
+Monster m1 = new Monster("スライム",30,10);
+~~~
+
+まず、新しいMonster型のプログラムを見てみると9行めからMonsterという名前のようなメソッドのようなものができている。
+**ただし、メソッドとは違い、返り値型が記述されていないことに気をつけよう**
+
+つまり、コンストラクタは以下のような文法で定義できる。
+
+~~~csharp
+(型アクセス修飾子) class クラス名
+{
+   (メンバアクセス修飾子) クラス名(引数型1 引数名1,引数型2 引数名2,....,引数型N 引数名N)
+   {
+      // コンストラクタの中身
+   }
+}
+~~~
+
+このようなメンバを**コンストラクタ**と言い、そのクラスがnewされるときに呼ばれることになる。
+
+**`this`はこの型の変数自体を指す。**例えば、このコンストラクタの中のthisはそれを呼び出してnewしている部分のm1と等しい。 
+
+コンストラクタはメソッドと同様に**オーバーロードすることができる**
+
+例えば、以下のようにすると、名前しか指定しない場合は、自動でhpとapを0にするコンストラクタも同時に定義できる。
+
+~~~csharp
+public class Monster
+{
+   public string name;
+   
+   public int hp;
+   
+   public int ap;
+   
+   public Monster(string _name,int _hp,int _ap)
+   {
+      this.name = _name;
+      this.hp = _hp;
+      this.ap = _ap;
+   }
+   
+   public Monster(string _name)
+   {
+      this.name = _name;
+      this.hp = this.ap = 0;
+   }
+}
+~~~
+
+上の例では、2番目の正規表現の内容を以下のように書くことでさらに省略できる。
+
+~~~csharp
+public class Monster
+{
+   public string name;
+   
+   public int hp;
+   
+   public int ap;
+   
+   public Monster(string _name,int _hp,int _ap)
+   {
+      this.name = _name;
+      this.hp = _hp;
+      this.ap = _ap;
+   }
+   
+   public Monster(string _name)
+   {
+      this(_name,0,0);
+   }
+}
+~~~
+
+**コンストラクタ内の`this()`は別のコンストラクタの呼び出しを示す。**
+## [文法]メソッド(その2)
+例えば、このモンスターはhpが1減ると、apが1ずつ増えるようなモンスターだったとしよう。
+
+このモンスターにダメージを与えるという処理は以下のように書くことができるだろう。
+
+~~~csharp
+int damage; //何らかの値
+Monster m1 = new Mosnter("スライム",30,10);
+m1.hp = m1.hp - damage;
+m1.ap = m1.ap + damage;
+~~~
+
+しかし、プログラムのあらゆるところで、ダメージを与えるという処理が増えていくと、時に攻撃力をプラスするという処理を忘れてしまうかもしれない。
+
+ここで、一つ考え方を抽象化しよう。
+
+**今までの考え方**
+
+* モンスターにダメージを与えるときはhpからdamageを引く
+* モンスターにダメージを与えるときはapにdamageを足す。
+
+**抽象化された考え方**
+
+* モンスターがダメージを受けるという処理にdamageを引数として与える。
+
+とにかく、以下のように書いてみよう。
+
+~~~csharp
+public class Monster
+{
+   public string name;
+   
+   public int hp;
+   
+   public int ap;
+   
+   public Monster(string _name,int _hp,int _ap)
+   {
+      this.name = _name;
+      this.hp = _hp;
+      this.ap = _ap;
+   }
+   
+   public void Damage(int damage)
+   {
+   	   this.hp = this.hp - damage;
+   	   this.ap = this.ap + damage;
+   }
+}
+~~~
+
+その上で、以下のようにこの場合の例は記述できる。
+
+~~~csharp
+int damage; //何らかの値
+Monster m1 = new Mosnter("スライム",30,10);
+m1.Damage(damage);
+~~~
+
+こうすれば、仮に別の人がMonsterを作ったとしても、自分はその振る舞いについて理解せずともダメージを与えることができるようになる。
+これがメソッドの本質である。
+
+## [文法]静的フィールド
+
+例えば、`Cat`クラスを作ったとしよう。それぞれの猫は独立した名前`name`をも
+
 # 参照と値
 
 ## メモリとアドレス
@@ -924,115 +1176,3 @@ void Update()
 **練習**
 
 * なぜSwapArray1は動作しなかったか?
-
-# クラス
-
----
-
-# 第二回活動
-#先にPrefabsとか少し教えてGW中に遊んでもらいたい
-今回は、
-
-## 値と参照
-## オブジェクト指向とは
-C#の重要な考え方であるオブジェクト指向という概念を学ぶ。C#に限らず、最近のプログラミング言語はオブジェクト指向に基づいた設計になっている。
-
-### [文法]クラス
-オブジェクトの設計図になるものをクラスという。
-~~~csharp
-using UnityEngine;
-using System.Collections;
-
-public class ClassName : MonoBehaviour {
-
-    // Use this for initialization
-    void Start () {
-
-    }
-
-    // Update is called once per frame
-    void Update () {
-
-    }
-}
-~~~
-
-
-
-### [文法]フィールド
-クラススコープの中で宣言される変数のこと。
-
-~~~csharp
-using UnityEngine;
-using System.Collections;
-
-public class ClassName : MonoBehaviour {
-    int x; //フィールド
-    // Use this for initialization
-    void Start () {
-    x = 10;
-    }
-
-    // Update is called once per frame
-    void Update () {
-      Debug.log("x = " + x); //x = 10
-    }
-}
-~~~
-
----
-プログラミングをする上で意識することの一つにソースコードを読みやすくするということがある。ソースコードは自分だけのものではなく、他の人と共有する資産であることを覚えておこう。
-
-誰しも、楽をしたい。プログラミングをする上で同じものを書かないようにする。同じことを複数箇所に書いてしまうと、変更やバグが発生した場合にコードの修正が大変になる。
-
----
-
-~~~csharp
-using UnityEngine;
-using System.Collections;
-
-public class ClassName : MonoBehaviour {
-    float x; //フィールド
-    // Use this for initialization
-    void Start () {
-    x = 10f;
-    y = 20f;
-    z = 5f;
-    Debug.log(x + (x + y) * x - (3 * x) * 3);
-    Debug.log(y + (y + z) * y - (3 * y) * 3);
-    Debug.log(z + (z + x) * z - (3 * y) * 3);
-
-    }
-}
-~~~
-
-これは、単に同じ計算を値を変えて行っているだけだが、以下のようにこの計算をするという同じ動作を取り出して、まとめることだ出来る。以下のような方法を用いることがある。
-
-~~~csharp
-using UnityEngine;
-using System.Collections;
-
-public class ClassName : MonoBehaviour {
-    float x; //フィールド
-    float y;
-    float z;
-    // Use this for initialization
-    void Start () {
-    x = 10f;
-    y = 20f;
-    z = 5f;
-    Debug.log(mathodName(x, y));
-    Debug.log(methodName(y, z));
-    Debug.log(methodName(z, x));
-    }
-
-    public static float methodName(float a, float b){
-      return a + (a + b) * a - (3.0 * a) * 3.0;
-    }
-}
-~~~
-
-まとめた場合、式を扱う部分が一箇所だけになっている。つまり、動作の内容（この場合は計算式）が変わっても変更を反映することが容易になる。
-## カプセル化
-## ポリモーフィズム
----
