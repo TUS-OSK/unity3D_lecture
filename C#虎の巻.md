@@ -1,7 +1,7 @@
 # C#虎の巻
 さて、Unityを最大限活用してプログラミングをするためにはC#という言語を学ばなきゃならない。
 この文章は、Unityに関してというより、C#を使えるレベルになるために必要な知識や導入をまとめたものだ。
-あくまで、非常にコンパクトに自分がまとめているだけなので、普通の参考書などと比べると量に乏しいし、網羅的とは言えない。
+あくまで、非常にコンパクトにまとめているだけなので、普通の参考書などと比べると量に乏しいし、網羅的とは言えない。
 
 実際に教えるときには、何かC#の本を使うことはしないが、何か一冊文法書を持っておくといいかもしれない。
 以下はオススメの本だ。
@@ -259,7 +259,7 @@ Debug.Log("Hello");
 |int|整数|
 |float|小数|
 |double|倍精度小数|
-|bool|真偽値*|
+|bool|真偽値|
 |char|文字|
 |string|文字列|
 
@@ -394,7 +394,7 @@ hp = hp * 200;
 * int型3つの変数a,b,cがあったとしてその3辺からなる三角形の面積の二乗$S^2$を出す数式を考えよう。
 以下はヘロンの公式である。
 
-$$s=\frac{a+b+c}{2}\\S^2 = \frac{1}{8}s(s-a)(s-b)(s-c)$$
+$$s=\frac{a+b+c}{2}\\S^2 = s(s-a)(s-b)(s-c)$$
 
 ### 概念の整理(関係演算子)、文法
 
@@ -502,7 +502,7 @@ if(hp >= 100)
 else文はif文に後続してifの中括弧の中に入らなかったものを処理する。
 
 ~~~csharp
-if(hp >=100)
+if(hp >=　100)
 {
    Debug.Log("HPは100以上です");
 }
@@ -623,10 +623,22 @@ for(int index = 0; index < 100; index = index + 1)
 
 また、**for文の中でも、whileと同様にbreakを利用することができる。**
 
+---
+
+# 第二回はここから
+まずは前回の復習。課題の確認から始めよう。
+
+**復習**
+
++ アルゴリズムにおける３つの成分とは何か？
+
+---
 
 ## 変数の使用可能な範囲
 
-前回は基本的なC#の文法事項を学んだ。その中に**スコープ**があった。スコープの中で宣言した変数は、その中でだけ使用することができる。プログラミングにおいてソースコードを記述する際には、変数の使用可能な範囲を意識しよう。
+前回は基本的なC#の文法事項を学んだ。その中に**スコープ**があった。スコープの中で宣言した変数は、基本的にはその中でだけ使用することができる。プログラミングにおいてソースコードを記述する際には、変数の使用可能な範囲を意識しよう。
+
++ 例1
 
 ~~~csharp
 using UnityEngine;
@@ -647,8 +659,65 @@ public class ClassName : MonoBehaviour {
 }
 ~~~
 
++ 例2
+
+~~~csharp
+	for(int i = 0; i < 10; i++){
+	Debug.Log(i);
+	}
+	//Debug.Log(i); //Error
+~~~
+
+この`for`文の中で宣言された`i`はfor文のスコープの中でしか使えない。合わせて覚えておこう。
+
+**練習**
+
++ 実際にエラーが出ることを確かめよう。
+
+## [Tips]宣言の方法
+まず下記のソースコードを見てほしい。
+
+~~~csharp
+void Start () {
+    int x;
+    x = 10;
+    }
+~~~
+
+前回までは上記のような方法でint型変数xを定めた。これを略して、以下のように宣言することができる。
+
+~~~csharp
+void Start () {
+    int x = 10;
+    }
+~~~
+
+このように、変数の宣言と同時に値を入れることを変数の初期化という。これからは`int x = 10;`のような記述をしていくことにする。
+
+また、`x = x + 1;`のような形を略して`x += 1;`と表すこともできる。
+加える増分が1の場合に限っては`x++;`と記述することもできる。この`x++;`については後ほど説明を加えると思います。
+
+~~~csharp
+void Start () {
+    int x = 10;
+    x += 3;
+    Debug.Log("x = "+ x); //x = 13
+    }
+~~~
+
 # [文法]配列
-配列とはプログラミングにおけるデータ構造の一つ。複数の値をひとまとめにして扱いたい場合がある。
+配列とはプログラミングにおけるデータ構造の一つ。複数の値をひとまとめにして扱いたい場合がある。前回学んだ、C#で用いる代表的なプリミティブ型でも配列を使用できる。変数の型と[]を使って、任意の配列を作成することができる。
+
+|型|表現するデータ|
+|:-:|:-:|
+|int[]|整数の配列|
+|float[]|小数の配列|
+|double[]|倍精度小数の配列|
+|bool[]|真偽値の配列|
+|char[]|文字の配列|
+|string[]|文字列の配列|
+
+ではまず配列の宣言の仕方を学ぼう。
 
 ~~~csharp
 using UnityEngine;
@@ -666,7 +735,9 @@ public class MainPlayer : MonoBehaviour {
 }
 ~~~
 
-`配列型変数 = new 型名[配列の長さ];`で宣言することができる。
+[注意]C#の配列は0番目から数えられる。つまり上記の例では0番目に1.2、1番目に2.3、3番目に-0.5が入ることになる。
+
++ 例
 
 ~~~csharp
 using UnityEngine;
@@ -676,7 +747,7 @@ public class MainPlayer : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-    float[] array = new float[20]; //３つのfloat値が入る配列
+    float[] array = new float[20]; //20のfloat値が入る配列
     for(int i = 0; i < array.length; i++){
     	array[i] = i * 2; //0,2,4,...
     }
@@ -684,62 +755,130 @@ public class MainPlayer : MonoBehaviour {
 }
 ~~~
 
+このように`for`文を使って、配列に値を代入することができる。よく使うのでこれも合わせて覚えておこう。
+
 **練習**
 
++ 25個の要素を入れることのできる配列を宣言しよう。
++ 作った配列に100以下の素数を順番に入れるアルゴリズムを考えてみよう。
+
+**素数:**正の約数が 1 と自分自身のみである自然数で、1 でない数のこと。
+
+## ジャグ配列
+配列の中に配列を入れることもできる。これをC#ではジャグ配列という。
+
++ 例1
+
+~~~csharp
+int[][] jaggedArray = new int[5][];
+for(int i=0; i<jaggedArray.Length; i++ ){
+    table[i] = new int[3];
+}
+~~~
+
+5個の配列に３個の要素を持つことのできる配列を入れた。
+
++ 例2
+
+~~~csharp
+int[][] jaggedArray = new int[3][];
+jaggedArray[0] = new int[5];
+jaggedArray[1] = new int[4];
+jaggedArray[2] = new int[2];
+~~~
+
+ジャグ配列の要素には、上記のように大きさの異なる配列を入れることもできる。
+
+###多次元配列
+活動では今のところとばします。後日資料を用意しておきますのでしばらくお待ち下さい。知りたい人は、暇なときに調べてもいいです。
 
 # [文法]メソッド
+プログラミングでも数学の関数のようなものを定義することができる。その関数のようなものをC#ではメソッドという。ソースコードを見やすくしたり、ソースコードの再利用性を高めたりすることができるので、使えると便利である。では、以下で使い方を見ていこう。
 
 ~~~csharp
 using UnityEngine;
 using System.Collections;
 
 public class ClassName : MonoBehaviour {
-    float x; //フィールド
+
     // Use this for initialization
     void Start () {
+    int a = 10;
+    int b = 20;
+    Debug.log(plus(a, b)); //30
     }
 
-    void methodName(){ //メソッド
-      //methodNameの部分には自由に名前をつけられる
-      return;
+    public static int plus(int x, int y){ //メソッド
+      //plusの部分には自由に名前をつけられる
+      return x + y;
     }
 }
 ~~~
 
-例
+これは、二つのint型の数字を受け取って、足したint型の値を返すメソッドの例である。数学の関数もこのように定義できる。プログラミングでは、メソッドが受け取る値の事を**引数(ひきすう)**といい、返ってくる結果を**返り値 or 戻り値**という。　　
 
-~~~csharp
-    float plus(float a, float b){
-      return a + b;
-      /*returnで終わり。このブロック内でreturnの後に書いたものは実行されない。*/
-    }
-~~~
+結果は`return value;`で値を返す。返り値の型はメソッドを定義するときに、`返り値の型　メソッドの名前(引数){メソッドの内容}`で書く。  
+メソッドは前回行った
 
-~~~csharp
-    void OnTriggerEnter(Collider other) {
-    Destroy(other.gameObject);
-}
-~~~
+$$(名前空間)\supset 型 \supset メンバ\supset 制御文\supset 制御文 \supset \cdots \supset 制御文$$
+
+のメンバの部分にあたる。 メソッドならばメンバである。
 
 Unityの`Start()`や`Update()`もメソッドの一つだ。
 
-**練習**
-float型の変数二つを掛けてfloat値を返すメソッドmultiply()を実装しよう。
 
 ~~~csharp
 using UnityEngine;
 using System.Collections;
 
 public class ClassName : MonoBehaviour {
-    float x;
-    float y;
+    // Use this for initialization
     void Start () {
-      x = 2.4;
-      y = 0.3;
-      Debug.log(multypliy(float a, float b)); //0.72
+    float x = 10f;
+    flaot y = 20f;
+    float z = 5f;
+    Debug.log(x + (x + y) * x - (3 * x) * 3);
+    Debug.log(y + (y + z) * y - (3 * y) * 3);
+    Debug.log(z + (z + x) * z - (3 * y) * 3);
+
     }
 }
 ~~~
+
+これは、単に同じ計算を値を変えて行っているだけだが、以下のようにこの計算をするという同じ動作を取り出して、まとめることだ出来る。以下のような方法を用いることがある。
+
+~~~csharp
+using UnityEngine;
+using System.Collections;
+
+public class ClassName : MonoBehaviour {
+    // Use this for initialization
+    void Start () {
+    float x = 10f;
+    float y = 20f;
+    float z = 5f;
+    Debug.log(mathodName(x, y));
+    Debug.log(methodName(y, z));
+    Debug.log(methodName(z, x));
+    }
+
+    public static float methodName(float a, float b){
+      return a + (a + b) * a - (3.0 * a) * 3.0;
+    }
+}
+~~~
+
+まとめた場合、式を扱う部分が一箇所だけになっている。つまり、動作の内容（この場合は計算式）が変わっても変更を反映することが容易になる。
+
+---
+
+
+**練習**
+実際にメソッドを一つ作ってみよう。
+
+$$ f(x) = 3x + 1　(x:float型)$$
+
+を表すメソッドを実装してみよう。実装できたら、実際にメソッドを`Start()`の中で使ってみよう。メソッドの名前は自由に決めて良いです。
 
 
 # クラス
@@ -779,9 +918,9 @@ int ap1 = 10, ap2 = 5, ap3 = 30;
 public class Monster
 {
    public string name;
-   
+
    public int hp;
-   
+
    public int ap;
 }
 ~~~
@@ -834,11 +973,11 @@ m1.ap = 10;
 public class Monster
 {
    public string name;
-   
+
    public int hp;
-   
+
    public int ap;
-   
+
    public Monster(string _name,int _hp,int _ap)
    {
       this.name = _name;
@@ -871,7 +1010,7 @@ Monster m1 = new Monster("スライム",30,10);
 
 このようなメンバを**コンストラクタ**と言い、そのクラスがnewされるときに呼ばれることになる。
 
-**`this`はこの型の変数自体を指す。**例えば、このコンストラクタの中のthisはそれを呼び出してnewしている部分のm1と等しい。 
+**`this`はこの型の変数自体を指す。**例えば、このコンストラクタの中のthisはそれを呼び出してnewしている部分のm1と等しい。
 
 コンストラクタはメソッドと同様に**オーバーロードすることができる**
 
@@ -881,18 +1020,18 @@ Monster m1 = new Monster("スライム",30,10);
 public class Monster
 {
    public string name;
-   
+
    public int hp;
-   
+
    public int ap;
-   
+
    public Monster(string _name,int _hp,int _ap)
    {
       this.name = _name;
       this.hp = _hp;
       this.ap = _ap;
    }
-   
+
    public Monster(string _name)
    {
       this.name = _name;
@@ -907,18 +1046,18 @@ public class Monster
 public class Monster
 {
    public string name;
-   
+
    public int hp;
-   
+
    public int ap;
-   
+
    public Monster(string _name,int _hp,int _ap)
    {
       this.name = _name;
       this.hp = _hp;
       this.ap = _ap;
    }
-   
+
    public Monster(string _name)
    {
       this(_name,0,0);
@@ -958,18 +1097,18 @@ m1.ap = m1.ap + damage;
 public class Monster
 {
    public string name;
-   
+
    public int hp;
-   
+
    public int ap;
-   
+
    public Monster(string _name,int _hp,int _ap)
    {
       this.name = _name;
       this.hp = _hp;
       this.ap = _ap;
    }
-   
+
    public void Damage(int damage)
    {
    	   this.hp = this.hp - damage;
