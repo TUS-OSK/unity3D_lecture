@@ -1130,8 +1130,141 @@ m1.Damage(damage);
 
 ## [文法]静的フィールド
 
-例えば、`Cat`クラスを作ったとしよう。それぞれの猫は独立した名前`name`をも
+例えば、`Cat`クラスを作ったとしよう。それぞれの猫は独立した名前`name`をもつ。
+同時に、猫の足の本数が入っているフィールド、`legCount`があったとしよう。
+今までの知識から`Cat`クラスを作るとするならば、以下のようになるだろう。
 
+~~~csharp
+public class Cat
+{
+   public string name;
+   
+   public int legCount = 4;
+   
+   public Cat(string name)
+   {
+      this.name = name;
+   }
+}
+~~~
+
+例えば使うときには以下のようにする。
+
+~~~csharp
+Cat mike = new Cat("ミケ");
+Cat shure = new Cat("シュレディンガー");
+Debug.Log(mike.legCount);
+Debug.Log(shure.legCount);
+~~~
+
+しかし、ここで当たり前のことだが、基本的には**猫の足の本数は4本**である。
+この状況では、`Cat.legCount`と記述できた方が分かりやすいだろう。
+
+そういう時は、以下のようにCatを書き換える。
+
+~~~csharp
+public class Cat
+{
+   public string name;
+   
+   public static int legCount = 4;
+   
+   public Cat(string name)
+   {
+      this.name = name;
+   }
+}
+~~~
+
+こうすることで、legCountフィールドは`Cat.legCount`によりアクセス可能となる。このようなフィールドを静的フィールドやstaticフィールドと呼ぶ。
+
+## [文法]静的メソッド
+
+今度は、`Cat`クラスに、その泣き声を出力するメソッドを作ったとしよう。おそらく以下のようになるだろう。
+
+~~~csharp
+public class Cat
+{
+   public string name;
+   
+   public void Say(){
+      Debug.Log("にゃー");
+   }
+   
+   public Cat(string name)
+   {
+      this.name = name;
+   }
+}
+~~~
+
+そして使う時は以下のようになる。
+
+~~~csharp
+Cat mike = new Cat("ミケ");
+Cat shure = new Cat("シュレディンガー");
+mike.Say();
+sure.Say();
+~~~
+
+しかし、これはフィールドの件と同様に、**すべての猫は「にゃー」と鳴く**ので、`Cat.Say()`と言えた方が適切である。
+
+そういう時は同様にstaticをつける。
+
+
+~~~csharp
+public class Cat
+{
+   public string name;
+   
+   public static void Say(){
+      Debug.Log("にゃー");
+   }
+   
+   public Cat(string name)
+   {
+      this.name = name;
+   }
+}
+~~~
+
+これを**静的メソッド**や**staticメソッド**という。静的メソッドには以下のような制約がある。
+
+**staticでないメンバを呼び出すことはできない。**
+
+これは、staticの仕組みから考えれば至極当然のことである。例えば、以下のようなコードが成立したとしよう。
+
+**実際には以下のコードはエラーとなる**
+
+~~~csharp
+public class Human
+{
+   public string name;
+   
+   public Human(string name)
+   {
+      this.name = name;
+   }
+   
+   public static void SayName()
+   {
+      Debug.Log(this.name);
+   }
+}
+~~~
+
+~~~csharp
+Human taro = new Human("太郎");
+Human ziro = new Human("次郎")；
+Human.SayName();
+~~~
+
+これが成立したとき、staticとは人間全体に共有で使えることを前提としているのに、nameに関してはそれぞれの人間に依存する。
+そのため、SayName()の中のthis.nameが誰を指しているか不明瞭である。
+
+よってこのような使い方ができない。
+
+しかし、逆にstaticでないメソッドからstaticなフィールドやstaticなメソッドを呼ぶことは可能である。
 # 参照と値
 
 ## メモリとアドレス
